@@ -1,37 +1,19 @@
-## Welcome to GitHub Pages
+本系列为一个java程序员向网络安全世界的探索之路。
 
-You can use the [editor on GitHub](https://github.com/OxygenYangQ/pmer_infosafe.github.io/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+一、为什么要向网络安全探索：
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+​	1、兴趣：平常工作中大部分是在做爬虫相关的工作，与网络安全接触较多，同时朋友中有很多在做这个，所以这个方向并不是完全的陌生，在接触到的部分中，感觉到自己是很有兴趣的，所以希望在业余时间进行更多的尝试。（如果您对网络安全或者说对计算机的网络世界没有兴趣甚至是对计算机没兴趣，那么，请忽略，在笔者看来，一切的动力起源于此，若没有兴趣，在业余时间，请去做些喜欢的事，让生活更有色彩些。）
 
-### Markdown
+​	2、责任：年近30岁，不管是学历，技术，人脉，工作都没有能够让自己安于现状，希望以后能实现更多的人生愿景，那么自然要在前方选择一个方向。
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+二、将会如何去学习网络安全：
 
-```markdown
-Syntax highlighted code block
+​	1、首先是语言方向，将会以当下安全应用的较多的python为语言基础，进行前期的学习及实践（由于笔者本身有java的代码基础，所以在python语言的应用上将以使用为主，不会涉及到python语言的过多介绍与学习）
 
-# Header 1
-## Header 2
-### Header 3
+​	2、其次是学习方式，将会进行天马行空式的行进方式，从百度开始，进行资料整理，模拟，实践，希望能产出对应的思维导图，安全工具，实验报告
 
-- Bulleted
-- List
+三、希望结实更多朋友，大家一起进步：
 
-1. Numbered
-2. List
+​	公众号 ：pmer_infosafe（程序猿玩安全）
 
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/OxygenYangQ/pmer_infosafe.github.io/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+​	二维码：qrcode_for_gh_062edb054ee4_258.jpg
