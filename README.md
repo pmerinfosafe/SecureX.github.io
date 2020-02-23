@@ -16,4 +16,4 @@
 
 ​	公众号 ：pmer_infosafe（程序猿玩安全）
 
-​	二维码：![qrcode_for_gh_062edb054ee4_258](./image/wechat_QRcode.jpg)
+​	二维码：![image](./image/wechat_QRcode.jpg)
