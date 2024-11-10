@@ -14,6 +14,6 @@
 
 三、希望结实更多朋友，大家一起进步：
 
-​	公众号 ：pmer_infosafe（程序猿玩安全）
+​	公众号 ：SecureX_oxygen（SecureX）
 
 ​	二维码：![image](./image/wechat_QRcode.jpg)
